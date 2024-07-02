@@ -30,8 +30,8 @@ export default function Login() {
     }
 
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (values) => {
+        console.log(values);
         if (email.trim() === "") {
             setCheckEmail(true);
         }
@@ -49,24 +49,24 @@ export default function Login() {
                     title: "Login Successful",
                     status: "success",
                     duration: 3000,
-                    position: "top-right"
+                    position: "top"
                 });
                 navigate("/dashboard")
             }
-            else if (response.error === 'User not found') {
+            else if (response.message === 'User not found') {
                 toast({
                     title: "User not found",
                     status: "error",
                     duration: 3000,
-                    position: "top-right"
+                    position: "top"
                 });
             }
-            else if (response.error === 'Invalid password') {
+            else if (response.message === 'Invalid Password') {
                 toast({
                     title: "Invalid password",
                     status: "error",
                     duration: 3000,
-                    position: "top-right"
+                    position: "top"
                 });
             }
             // else {
@@ -83,6 +83,12 @@ export default function Login() {
 
         } catch (error) {
             setError("Internal Server Error");
+            toast({
+                        title: "Internal Server Error",
+                        status: "error",
+                        duration: 3000,
+                        position: "top"
+                    });
         }
 
     }

@@ -6,7 +6,7 @@ import userModel from '../models/userModel.js';
 const router = express.Router();
 
 
-router.post('/user-registration', async (req, res) => {
+router.post('/registration', async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -54,9 +54,9 @@ export default router;
 
 
 /*****************************
-http://localhost:5000/api/user-registration
+http://localhost:5000/api/registration
 
-http://localhost:5000/api/login-registration
+http://localhost:5000/api/login
 
  test route 
 {
