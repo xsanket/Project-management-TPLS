@@ -28,7 +28,7 @@ router.post('/registration', async (req, res) => {
         //Save new user in db
         const saveUser = await user.save();
 
-        res.status(200).json({
+        res.status(201).json({
             success: true,
             message: "user registered successfully",
             data: saveUser
@@ -41,7 +41,7 @@ router.post('/registration', async (req, res) => {
     } catch (error) {
         return res.send({
             success: false,
-            message: error.message
+            message: "Internal server error"
         });
 
     }

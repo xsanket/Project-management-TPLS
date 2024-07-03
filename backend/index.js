@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import dbConfig from './config/dbConfig.js';
 import userLogin from './routes/userLogin.js'
 import userRegister from './routes/userRegistration.js'
+import createProject from './routes/createProject.js'
 import cors from "cors";
 
 
@@ -21,6 +22,7 @@ app.use(express.json());
 //Routs
 app.use('/api', userLogin)
 app.use('/api', userRegister)
+app.use('/api', createProject)
 
 
 
