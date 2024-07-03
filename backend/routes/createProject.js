@@ -13,11 +13,11 @@ router.post("/createProject", async (req, res) => {
         console.log(req.body);
 
         // all fields are required
-        if (!ProjectName || !Reason || !Type || !Division || !Category || !Priority || !Department || !StartDate || !EndDate || !Location || !Status) {
-            return res.status(400).json({
-                message: "All fields are mandatory"
-            });
-        }
+        // if (!ProjectName || !Reason || !Type || !Division || !Category || !Priority || !Department || !StartDate || !EndDate || !Location || !Status) {
+        //     return res.status(400).json({
+        //         message: "All fields are mandatory"
+        //     });
+        // }
 
         //check the date
         const startDateObj = new Date(StartDate);
@@ -27,6 +27,7 @@ router.post("/createProject", async (req, res) => {
             return res.status(400).json({ message: "Start date cannot be greater than end date" });
             console.log("error is here")
         }
+
 
         // create the project instance
         const project = new createProjectModel({ ProjectName, Reason, Type, Division, Category, Priority, Department, StartDate, EndDate, Location, Status });

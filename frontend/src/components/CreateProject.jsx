@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
-import { Box, Button, Flex, FormControl, InputRightElement, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast, Heading, Tabs, TabList, Tab, Divider, TabPanels, TabPanel, Textarea, Grid, Select } from "@chakra-ui/react";
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast, Heading, Tabs, TabList, Tab, Divider, TabPanels, TabPanel, Textarea, Grid, Select } from "@chakra-ui/react";
+import { createProject } from '../apiCalls/projectApiCall.js';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -9,7 +11,8 @@ export default function CreateProject() {
     const isVertical = useBreakpointValue({ base: true, lg: false });
     const [check, setCheck] = useState(false);
     const [data, setData] = useState({});
-
+    const toast = useToast();
+    const navigate = useNavigate()
 
 
     const handleChange = (e) => {
@@ -21,14 +24,62 @@ export default function CreateProject() {
     };
 
 
-    const handleSubmit = () => {
+
+
+    const handleSubmit = async () => {
         console.log(data)
+        if (!data.ProjectName) {
+            return setCheck(true);
+        }
+        setCheck(false);
+
+
+        if (!data.StartDate ||!data.EndDate ||!data.Reason ||!data.Type ||!data.Division ||!data.Category ||!data.Priority ||!data.Department || !data.Location) {
+            {
+                toast({
+                    title: "All fields are mandatory",
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                })
+                return;
+            }
+        }
+
+        try {
+            const response = await createProject({ ...data });
+            if (response.success) {
+                // console.log(response)
+                toast({
+                    title: "Project created successfully",
+                    status: "success",
+                    duration: 3000,
+                    position: "top"
+                }
+                );
+
+                navigate("/projects")
+            }
+
+            if (response.message == "Start date cannot be greater than end date") {
+                console.log("hello from date")
+                toast({
+                    title: "Start date cannot be greater than end date",
+                    status: "warning",
+                    duration: 3000,
+                    position: "top"
+                });
+            }
+
+        } catch (error) {
+            toast({
+                title: "Internal Server Error",
+                status: "error",
+                duration: 3000,
+                position: "top"
+            });
+        }
     }
-
-
-
-
-
 
 
 
