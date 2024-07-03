@@ -1,5 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Button, Flex, FormControl, InputRightElement, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast, Heading, Tabs, TabList, Tab, Divider, TabPanels, TabPanel } from "@chakra-ui/react";
+import CreateProject from '../components/CreateProject';
+
+
+
+
 
 export default function Home() {
 
@@ -172,6 +177,7 @@ export default function Home() {
                             bg={"white"}
                         >
                             {/* <CreateProject /> */}
+                            <CreateProject/>
                         </TabPanel>
 
                     </TabPanels>
