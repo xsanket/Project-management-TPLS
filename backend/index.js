@@ -5,6 +5,7 @@ import userLogin from './routes/userLogin.js'
 import userRegister from './routes/userRegistration.js'
 import createProject from './routes/createProject.js'
 import cors from "cors";
+import fetchProjects from './routes/fetchProject.js'
 
 
 //express configuration
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use('/api', userLogin)
 app.use('/api', userRegister)
 app.use('/api', createProject)
+app.use('/api', fetchProjects)
 
 
 

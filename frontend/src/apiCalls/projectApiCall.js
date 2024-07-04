@@ -7,4 +7,10 @@ export const createProject = async (payload) => {
 };
 
 
+export const fetchProjects = async (payload) => {
+    const response = await axiosInstance("get", "/api/fetchProjects", payload);
+    return response;
+}
+
+
 
