@@ -5,7 +5,7 @@ import ProjectModel from "../models/createProjectModel.js";
 const router = express.Router();
 
 router.get('/fetchProjects', async (req, res) => {
-    console.log("hello")
+    //console.log("hello")
 
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
@@ -26,6 +26,8 @@ router.get('/fetchProjects', async (req, res) => {
     }
         : {};
 
+    // console.log("searchData", searchData)
+
 
     // for sorting
     let sort = req.query.sort || "ProjectName";
@@ -45,7 +47,9 @@ router.get('/fetchProjects', async (req, res) => {
     const totalCount = await ProjectModel.countDocuments();
     const projects = await ProjectModel.find({})
         .find(searchData).sort(sortBy).skip((page - 1) * limit).limit(limit);
-
+    console.log("count", totalCount)
+    console.log("projects", projects)
+    
     try {
         res.status(200).send({
             projects,
