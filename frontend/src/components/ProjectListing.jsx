@@ -18,22 +18,27 @@ export default function ProjectListing() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [data, setData] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
+  const initSort = getSort(searchParams.get("sortOrder"));
   const [totalPages, setTotalPages] = useState();
   const AllPage = Math.ceil(totalPages / 10);
+  const initQuery = getQuery(searchParams.get("query"));
+  const [query, setQuery] = useState(initQuery || "");
+  const [sortBy, setSortBy] = useState(initSort);
 
 
   const handleSelectChange = (e) => {
-    
+    setSortBy(e.target.value);
   };
 
   const handleOptionSelect = (option) => {
-    
+    setSortBy(option);
+    onClose();
   };
 
 
 
   const handleUpdate = () => {
-
+    console.log("")
   }
 
 
