@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Box, Button, Flex, FormControl, InputRightElement, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast, Heading, Tabs, TabList, Tab, Divider, TabPanels, TabPanel } from "@chakra-ui/react";
 import CreateProject from '../components/CreateProject';
+import ProjectListing from '../components/ProjectListing';
 
 
 
@@ -39,7 +40,7 @@ export default function Home() {
                 <Box
                     w={"100%"}
                     h={isVertical ? "10vh" : "30vh"}
-                    backgroundImage={`url("/bg.svg")`}
+                    backgroundImage={`url("/Header.svg")`}
                     backgroundPosition={isVertical ? "0 0" : "60px 0"}
                     backgroundSize={isVertical ? "cover" : "contain"}
                     bgRepeat={"no-repeat"}
@@ -166,7 +167,7 @@ export default function Home() {
                             borderRadius={5}
                             p={0}
                         >
-                            {/* <ProjectListing /> */}
+                            <ProjectListing />
                         </TabPanel>
 
 
@@ -176,8 +177,8 @@ export default function Home() {
                             borderRadius={5}
                             bg={"white"}
                         >
-                            {/* <CreateProject /> */}
-                            <CreateProject/>
+
+                            <CreateProject />
                         </TabPanel>
 
                     </TabPanels>
