@@ -1,4 +1,5 @@
 import { axiosInstance } from "./axiosInstance"
+import { axiosInstanceQuery } from "./axiosInstanceQuery";
 
 
 export const createProject = async (payload) => {
@@ -7,21 +8,27 @@ export const createProject = async (payload) => {
 };
 
 
-export const fetchProjects = async (payload) => {
-    const response = await axiosInstance("get", `/api/fetchProjects`, payload);
-    return response;
-}
+// export const fetchProjects = async (payload) => {
+//     const response = await axiosInstance("get", `/api/fetchProjects`, payload);
+//     return response;
+// }
 
-// export const fetchProjects = async (page, query, sortBy) => {
-//     try {
-//       const response = await axiosInstance("get", `/api/fetchProjects?limit=10&page=${page}&filter=${query}&sort=${sortBy}`, 
-//       );
-//       return response.data;
-//     } catch (error) {
-//       console.error("Error fetching projects:", error);
-//       throw error;
-//     }
-//   };
 
+export const fetchProjects = async (page, query, sortBy) => {
+    try {
+      const params = {
+        limit: 10,
+        page,
+        filter: query,
+        sort: sortBy,
+      };
+      const response = await axiosInstanceQuery('get', '/api/fetchProjects', params);
+      return response;
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      throw error;
+    }
+  };
+  
 
 

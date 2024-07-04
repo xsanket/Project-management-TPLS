@@ -36,9 +36,11 @@ export default function ProjectListing() {
     const getProjectsData = async () => {
       try {
         const response = await fetchProjects({ page, query, sortBy });
-        console.log("response =========>>",response);
+        //console.log("response =========>>",response.projects[0]);
+        console.log("hello")
         
-        if (response.success) {
+        if (response && response.projects) {
+          console.log("response =========>>", response.projects[0]);
           setData(response.projects);
           console.log("hello")
           setTotalPages(response.totalCount);
@@ -144,6 +146,9 @@ export default function ProjectListing() {
               <Box onClick={onOpen} cursor="pointer">
                 <Icon boxSize={8} as={BsFilterLeft} />
               </Box>
+              
+              
+              
               <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
                 <DrawerOverlay />
                 <DrawerContent>
@@ -160,6 +165,8 @@ export default function ProjectListing() {
                   </DrawerBody>
                 </DrawerContent>
               </Drawer>
+
+              
             </Box>
           )}
         </Box>

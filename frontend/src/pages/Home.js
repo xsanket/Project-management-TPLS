@@ -54,8 +54,8 @@ export default function Home() {
                         mt={-180}
                         alignItems={"center"}
                         justifyContent={"center"}
-                        w={"50%"}
-                        ml={20}
+                        w={"100%"}
+                    // ml={90}
                     >
                         <Heading
                             fontSize={isVertical ? "4xl" : "6xl"}
@@ -63,6 +63,8 @@ export default function Home() {
                             pl={10}
                             color={"white"}
                         >
+
+                            {/* have to set the heading here */}
                             {tabs[currentTab]}
                         </Heading>
                         <Image boxSize={"60px"} src='/logo.svg'></Image>
@@ -91,6 +93,10 @@ export default function Home() {
                     </Flex>
                 )}
 
+
+                {/* *********sidebar*************** */}
+
+
                 <Tabs
                     onChange={handleTabChange}
                     index={currentTab}
@@ -116,31 +122,38 @@ export default function Home() {
                                 <Image boxSize={7} src="/Dashboard.svg" />
                             </Tab>
 
+
+
                             <Tab
+                                position={"sticky"}
                                 onClick={() => handleTab("Tab2")}
                                 _selected={{
                                     borderLeft: "5px solid blue",
                                 }}
                                 mt={5}
                             >
-                                <Image boxSize={7} src="/ProjectList.svg" />
+                                <Image boxSize={7} position={"sticky"} src="/ProjectList.svg" />
                             </Tab>
 
-                            <Divider p={0} />
+                            <Divider position={"sticky"} p={3} w="70%" borderColor="black" />
+
                             <Tab
+                                position={"sticky"}
                                 _selected={{
                                     borderLeft: "5px solid blue",
                                 }}
-                                mt={5}
-                                mb={10}
-                                pb={10}
+                            //mt={5}
+                            //mb={10}
+                            //pb={10}
                             >
-                                <Image boxSize={7} src="/CreateProject.svg" />
+                                <Image boxSize={7} position={"sticky"} src="/CreateProject.svg" />
                             </Tab>
 
 
                             <Tab isDisabled pt={10} mt={10}>
                                 <Image
+                                    position={"sticky"}
+                                    bottom={0}
                                     cursor={"pointer"}
                                     onClick={handleLogout}
                                     boxSize={7}
@@ -165,14 +178,14 @@ export default function Home() {
                             boxShadow="xl"
                             bg={"white"}
                             borderRadius={5}
-                            p={0}
+
                         >
                             <ProjectListing />
                         </TabPanel>
 
 
                         <TabPanel
-                            h={!isVertical ? "600px" : ""}
+                            h={!isVertical ? "700px" : ""}
                             boxShadow="xl"
                             borderRadius={5}
                             bg={"white"}

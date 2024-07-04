@@ -30,9 +30,9 @@ export default function TableRow({
     return (
 
         <>
-            <Tr>
-                <Td w={"100px"}>
-                    <Heading fontWeight={600} fontSize={"17px"} color={"gray.700"}>
+            <Tr >
+                <Td w={"100px"} h={"70px"}>
+                    <Heading fontWeight={500} fontSize={"17px"} color={"gray.700"}>
                         {ProjectName}
                     </Heading>
                     <Text fontSize={"13px"} color={"gray.500"}>
@@ -50,14 +50,16 @@ export default function TableRow({
                 <Td>{Department}</Td>
                 <Td>{Location}</Td>
                 <Td fontWeight={"bold"}>{Status}</Td>
-                <Td display={"flex"} gap={5}>
+                
+                
+                <Td display={"flex"} gap={2}>
                     <Button
                         size={"sm"}
                         borderRadius={20}
                         colorScheme="blue"
                         variant={"solid"}
                         fontWeight={400}
-                        w={"80px"}
+                        w={"60px"}
                         onClick={() => handleUpdate("Running", id)}
                     >
                         START
@@ -67,7 +69,7 @@ export default function TableRow({
                         borderRadius={20}
                         colorScheme="blue"
                         variant={"outline"}
-                        w={"80px"}
+                        w={"60px"}
                         fontWeight={400}
                         onClick={() => handleUpdate("Closed", id)}
                     >
@@ -78,8 +80,7 @@ export default function TableRow({
                         borderRadius={20}
                         colorScheme="blue"
                         fontWeight={400}
-                        // px={5}
-                        w={"80px"}
+                        w={"60px"}
                         variant={"outline"}
                         onClick={() => handleUpdate("Cancelled", id)}
                     >

@@ -10,9 +10,9 @@ export default function ProjectTable({ data, handleUpdate }) {
         <>
             <TableContainer borderRadius={5} w={"100%"}>
                 <Table size={"sm"} variant="simple">
-                    <Thead bgColor={"gray.200"}>
+                    <Thead bgColor={"blue.100"}>
                         <Tr>
-                            <Th py={3}>Project Name</Th>
+                            <Th py={5}>Project Name</Th>
                             <Th>Reason</Th>
                             <Th>Type</Th>
                             <Th>Division</Th>
