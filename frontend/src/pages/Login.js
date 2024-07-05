@@ -43,7 +43,7 @@ export default function Login() {
             const response = await userLogin({ email, password });
 
             if (response.success) {
-                console.log(response)
+                //console.log(response)
                 localStorage.setItem("token", response.token);
                 toast({
                     title: "Login Successful",

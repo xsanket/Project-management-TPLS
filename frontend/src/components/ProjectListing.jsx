@@ -6,7 +6,8 @@ import { useSearchParams } from "react-router-dom";
 import CardComponent from './CardComponent.jsx';
 import { BsFilterLeft } from "react-icons/bs";
 import { getSort, getQuery } from '../sort/SortLogic.js';
-import { fetchProjects } from '../apiCalls/projectApiCall.js';
+import { fetchProjects, updateProjects, updateProjectStatus } from '../apiCalls/projectApiCall.js';
+import Pagination from './Pagination.jsx';
 
 function getPage(value) {
   value = Number(value);
@@ -31,27 +32,29 @@ export default function ProjectListing() {
   const [sortBy, setSortBy] = useState(initSort);
 
 
-
   useEffect(() => {
-    const getProjectsData = async () => {
-      try {
-        const response = await fetchProjects({ page, query, sortBy });
-        //console.log("response =========>>",response.projects[0]);
-        console.log("hello")
-        
-        if (response && response.projects) {
-          console.log("response =========>>", response.projects[0]);
-          setData(response.projects);
-          console.log("hello")
-          setTotalPages(response.totalCount);
-        }
-      } catch (error) {
-        console.log("Error fetching projects: ", error);
-      }
-    };
-
-    getProjectsData();
+    getProjectsData(page, query, sortBy);
   }, [page, query, sortBy]);
+
+
+  const getProjectsData = async (page, query, sortBy) => {
+    try {
+      const response = await fetchProjects({ page, query, sortBy });
+      //console.log("response =========>>",response.projects[0]);
+      //console.log("hello")
+
+      if (response && response.projects) {
+        //console.log("response =========>>", response.projects[0]);
+        setData(response.projects);
+        //console.log("hello")
+        setTotalPages(response.totalCount);
+      }
+    } catch (error) {
+      console.log("Error fetching projects: ", error);
+    }
+  };
+
+
 
 
 
@@ -72,8 +75,22 @@ export default function ProjectListing() {
 
 
   // for updating the status
-  const handleUpdate = () => {
-    
+  const handleUpdate = async (value, id) => {
+    try {
+      const response = await updateProjectStatus({ value, id });
+      if (response.success) {
+        //setData(response.data.updatedProject);
+        const updatedProject = response.data;
+        setData(prevData =>
+          prevData.map(item => item._id === id ? updatedProject : item)
+        );
+      }
+      else {
+        alert("Error in updating status")
+      }
+
+    } catch (error) {
+    }
   };
 
 
@@ -146,9 +163,9 @@ export default function ProjectListing() {
               <Box onClick={onOpen} cursor="pointer">
                 <Icon boxSize={8} as={BsFilterLeft} />
               </Box>
-              
-              
-              
+
+
+
               <Drawer placement="bottom" onClose={onClose} isOpen={isOpen}>
                 <DrawerOverlay />
                 <DrawerContent>
@@ -166,7 +183,7 @@ export default function ProjectListing() {
                 </DrawerContent>
               </Drawer>
 
-              
+
             </Box>
           )}
         </Box>
@@ -202,7 +219,11 @@ export default function ProjectListing() {
         ""
       ) : (
         <Box mb={2} p={2} borderRadius={5}>
-          {/* Pagination Controls Here */}
+          <Pagination
+            currentPage={page}
+            totalPages={AllPage}
+            onPageChange={(page) => setPage(page)}
+          />
         </Box>
       )}
     </>

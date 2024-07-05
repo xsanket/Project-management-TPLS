@@ -5,7 +5,7 @@ const router = express.Router();
 
 
 router.put("/updateStatus", async (req, res) => {
-    const { status, id } = req.body;
+    const { Status, id } = req.body;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
 
@@ -44,7 +44,8 @@ router.put("/updateStatus", async (req, res) => {
 
     try {
         await ProjectModel.findByIdAndUpdate(
-            id, { status, },
+            id,
+            { Status },
             { new: true }
         );
 
@@ -58,7 +59,14 @@ router.put("/updateStatus", async (req, res) => {
             res.status(404).send({ message: "Project Not Found" });
         }
         else {
-            res.status(200).send({ message: "Status Updated", updateStatus });
+            
+            res.send({
+                success: true,
+                message: "Status Updated",
+                data: updateStatus
+            });
+            
+            //res.status(200).send({ message: "Status Updated", updateStatus });
         }
 
 
