@@ -73,7 +73,7 @@ export default function ProjectListing() {
 
   // for updating the status
   const handleUpdate = () => {
-    console.log("handleUpdate");
+    
   };
 
 

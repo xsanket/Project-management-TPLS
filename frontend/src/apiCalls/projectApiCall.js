@@ -29,6 +29,25 @@ export const fetchProjects = async (page, query, sortBy) => {
       throw error;
     }
   };
+
+
+
+
+export const updateProjects = async (page, query, sortBy) => {
+    try {
+      const params = {
+        limit: 10,
+        page,
+        filter: query,
+        sort: sortBy,
+      };
+      const response = await axiosInstanceQuery('put', '/api/updateStatus', params);
+      return response;
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+      throw error;
+    }
+  };
   
 
 

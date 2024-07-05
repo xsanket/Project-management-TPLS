@@ -1,11 +1,12 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import dbConfig from './config/dbConfig.js';
-import userLogin from './routes/userLogin.js'
-import userRegister from './routes/userRegistration.js'
-import createProject from './routes/createProject.js'
+import userLogin from './routes/userLogin.js';
+import userRegister from './routes/userRegistration.js';
+import createProject from './routes/createProject.js';
 import cors from "cors";
-import fetchProjects from './routes/fetchProject.js'
+import fetchProjects from './routes/fetchProject.js';
+import updateStatus from './routes/updateStatus.js';
 
 
 //express configuration
@@ -25,6 +26,8 @@ app.use('/api', userLogin)
 app.use('/api', userRegister)
 app.use('/api', createProject)
 app.use('/api', fetchProjects)
+app.use('/api', updateStatus)
+
 
 
 
