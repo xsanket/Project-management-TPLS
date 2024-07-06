@@ -139,7 +139,7 @@ export default function Home() {
                         >
                             {tabs[currentTab]}
                         </Heading>
-                        <Image onClick={handleLogout} mr={5} src="/Logout.svg"></Image>
+                        <Image cursor={"pointer"} onClick={handleLogout} mr={5} src="/Logout.svg"></Image>
                     </Flex>
                 )}
 
@@ -201,14 +201,15 @@ export default function Home() {
 
 
                             <Tab pt={10} mt={10}>
-                                <Image
+                                <Image cursor={"pointer"} onClick={handleLogout}  src="/Logout.svg"></Image>
+                                {/* <Image
                                     position={"sticky"}
                                     bottom={0}
                                     cursor={"pointer"}
                                     onClick={handleLogout}
                                     boxSize={7}
                                     src="/Logout.svg"
-                                />
+                                /> */}
                             </Tab>
 
                         </TabList>

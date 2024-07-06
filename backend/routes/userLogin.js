@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import userModel from '../models/userModel.js';
+import authMiddleware from '../middleware/authMiddleware.js';
 
 
 const router = express.Router();
@@ -56,6 +57,33 @@ router.post('/login', async (req, res) => {
             message: "Login failed. Please try again",
         })
     }
+});
+
+
+
+
+
+
+
+// get user 
+router.get('/getUser', authMiddleware, async (req, res) => {
+    try {
+        const user = await userModel.findOne({ _id: req.body.userId });
+
+        return res.send({
+            success: true,
+            message: "User Found",
+            data: user,
+        });
+
+    } catch (error) {
+        return res.send({
+            success: false,
+            message: "User not found"
+        });
+
+    }
+
 });
 
 export default router;

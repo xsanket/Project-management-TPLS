@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Flex, FormControl, InputRightElement, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast } from "@chakra-ui/react";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
 import { userLogin } from '../apiCalls/userApiCall';
@@ -17,6 +17,19 @@ export default function Login() {
     const navigate = useNavigate();
     const toast = useToast();
 
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            navigate('/home')
+            toast({
+                    title: "You already logged in",
+                    status: "success",
+                    duration: 3000,
+                    position: "top"
+                });
+            }
+
+    }, []);
 
 
     const handleEmailChange = (e) => {
@@ -84,11 +97,11 @@ export default function Login() {
         } catch (error) {
             setError("Internal Server Error");
             toast({
-                        title: "Internal Server Error",
-                        status: "error",
-                        duration: 3000,
-                        position: "top"
-                    });
+                title: "Internal Server Error",
+                status: "error",
+                duration: 3000,
+                position: "top"
+            });
         }
 
     }
