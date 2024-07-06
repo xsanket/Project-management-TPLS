@@ -17,7 +17,7 @@ function getPage(value) {
   return value;
 }
 
-export default function ProjectListing() {
+export default function ProjectListing({ projects, setProjects }) {
   const isVertical = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [data, setData] = useState([]);
@@ -69,7 +69,9 @@ export default function ProjectListing() {
   };
 
 
-
+  useEffect(() => {
+    setData(projects);
+  }, [projects]);
 
 
 

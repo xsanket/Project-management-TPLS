@@ -1,10 +1,11 @@
 import express from 'express';
 import ProjectModel from "../models/createProjectModel.js";
+import authMiddleware from '../middleware/authMiddleware.js';
 
 
 const router = express.Router();
 
-router.get('/fetchProjects', async (req, res) => {
+router.get('/fetchProjects',authMiddleware, async (req, res) => {
     //console.log("hello")
 
     const page = parseInt(req.query.page) || 1;

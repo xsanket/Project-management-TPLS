@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-export default function CreateProject() {
+export default function CreateProject({ addNewProject }) {
     const isVertical = useBreakpointValue({ base: true, lg: false });
     const [check, setCheck] = useState(false);
     const [data, setData] = useState({});
@@ -32,9 +32,7 @@ export default function CreateProject() {
             return setCheck(true);
         }
         setCheck(false);
-
-
-        if (!data.StartDate ||!data.EndDate ||!data.Reason ||!data.Type ||!data.Division ||!data.Category ||!data.Priority ||!data.Department || !data.Location) {
+        if (!data.StartDate || !data.EndDate || !data.Reason || !data.Type || !data.Division || !data.Category || !data.Priority || !data.Department || !data.Location) {
             {
                 toast({
                     title: "All fields are mandatory",
@@ -50,6 +48,8 @@ export default function CreateProject() {
             const response = await createProject({ ...data });
             if (response.success) {
                 // console.log(response)
+                addNewProject(response);
+                setData({});
                 toast({
                     title: "Project created successfully",
                     status: "success",
@@ -58,7 +58,7 @@ export default function CreateProject() {
                 }
                 );
 
-                navigate("/projects")
+                // navigate("/projects")
             }
 
             if (response.message == "Start date cannot be greater than end date") {

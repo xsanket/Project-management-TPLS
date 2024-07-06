@@ -1,10 +1,11 @@
 import express from 'express';
 import ProjectModel from "../models/createProjectModel.js";
+import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
 
-router.put("/updateStatus", async (req, res) => {
+router.put("/updateStatus", authMiddleware, async (req, res) => {
     const { Status, id } = req.body;
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;

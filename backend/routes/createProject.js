@@ -1,11 +1,12 @@
 import express from "express";
 import createProjectModel from "../models/createProjectModel.js";
+import authMiddleware from "../middleware/authMiddleware.js";
 
 
 
 const router = express.Router();
 
-router.post("/createProject", async (req, res) => {
+router.post("/createProject", authMiddleware, async (req, res) => {
 
     try {
         //object destructured

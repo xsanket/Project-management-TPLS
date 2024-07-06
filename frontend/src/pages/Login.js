@@ -51,7 +51,7 @@ export default function Login() {
                     duration: 3000,
                     position: "top"
                 });
-                navigate("/dashboard")
+                navigate("/home")
             }
             else if (response.message === 'User not found') {
                 toast({

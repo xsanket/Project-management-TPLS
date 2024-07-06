@@ -1,11 +1,12 @@
 import express from 'express';
 import ProjectModel from "../models/createProjectModel.js";
+import authMiddleware from '../middleware/authMiddleware.js';
 
 
 
 const router = express.Router();
 
-router.get("/getGraphData", async (req, res) => {
+router.get("/getGraphData", authMiddleware, async (req, res) => {
     const strategy = await ProjectModel.countDocuments({
         Department: { $eq: "Strategy" },
         Status: { $eq: "Closed" },
@@ -92,7 +93,7 @@ router.get("/countProject", async (req, res) => {
     });
 
     const delayProject = await ProjectModel.countDocuments({
-        EndDate: { $gt: currentDate },
+        EndDate: { $lt: currentDate },
     });
 
     const count = [

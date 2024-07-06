@@ -20,14 +20,12 @@ export default function Home() {
     const [data, setData] = useState([]);
     const [graphData, setGraphData] = useState([]);
     const navigate = useNavigate();
+    const [projects, setProjects] = useState([]);
 
 
 
 
-    const handleLogout = () => {
-        localStorage.removeItem("token");
-        navigate('/login')
-    }
+
 
 
     const handleTab = (tab) => {
@@ -69,8 +67,21 @@ export default function Home() {
         setCurrentTab(index);
     };
 
+    const addNewProject = (newProject) => {
+        setProjects(prevProjects => [...prevProjects, newProject]);
+    };
+
+    useEffect(() => {
+        fetchData(activeTab);
+    }, [activeTab]);
 
 
+
+    const handleLogout = () => {
+        //console.log("Logout ");
+        localStorage.removeItem("token");
+        navigate('/')
+    }
 
 
     return (
@@ -189,7 +200,7 @@ export default function Home() {
                             </Tab>
 
 
-                            <Tab isDisabled pt={10} mt={10}>
+                            <Tab pt={10} mt={10}>
                                 <Image
                                     position={"sticky"}
                                     bottom={0}
@@ -216,7 +227,7 @@ export default function Home() {
                             h={!isVertical ? "700px" : ""}
                             borderRadius={5}
                             boxShadow="xl"
-                            bg={"white"}
+                        // bg={"white"}
                         >
                             <Dashboard data={data} graphData={graphData} />
                         </TabPanel>
@@ -229,7 +240,7 @@ export default function Home() {
                             borderRadius={5}
 
                         >
-                            <ProjectListing />
+                            <ProjectListing projects={projects} setProjects={setProjects} />
                         </TabPanel>
 
 
@@ -240,7 +251,7 @@ export default function Home() {
                             bg={"white"}
                         >
 
-                            <CreateProject />
+                            <CreateProject addNewProject={addNewProject} />
                         </TabPanel>
 
                     </TabPanels>
@@ -268,6 +279,8 @@ export default function Home() {
                             >
                                 <Image src="/Dashboard.svg" />
                             </Tab>
+
+
                             <Tab
                                 onClick={() => handleTab("Tab2")}
                                 _selected={{
@@ -276,6 +289,8 @@ export default function Home() {
                             >
                                 <Image src="/ProjectList.svg" />
                             </Tab>
+
+
                             <Tab
                                 _selected={{
                                     borderBottom: "5px solid blue",
@@ -286,16 +301,7 @@ export default function Home() {
                         </TabList>
                     )}
 
-
-
-
-
                 </Tabs>
-
-
-
-
-
 
             </Box>
 
