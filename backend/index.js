@@ -8,6 +8,9 @@ import cors from "cors";
 import fetchProjects from './routes/fetchProject.js';
 import updateStatus from './routes/updateStatus.js';
 import updateProjectStatus from './routes/updateProjectStatus.js';
+import graphProject from './routes/graphProject.js';
+
+
 
 //express configuration
 dotenv.config();
@@ -28,6 +31,8 @@ app.use('/api', createProject)
 app.use('/api', fetchProjects)
 app.use('/api', updateStatus)
 app.use('/api', updateProjectStatus)
+app.use('/api', graphProject)
+
 
 
 

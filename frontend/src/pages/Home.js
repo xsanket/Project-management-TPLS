@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Button, Flex, FormControl, InputRightElement, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast, Heading, Tabs, TabList, Tab, Divider, TabPanels, TabPanel } from "@chakra-ui/react";
+
 import CreateProject from '../components/CreateProject';
 import ProjectListing from '../components/ProjectListing';
+import Dashboard from '../components/Dashboard';
+import { countProject, getGraphData } from '../apiCalls/graphApiCall';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -14,14 +18,15 @@ export default function Home() {
     const [currentTab, setCurrentTab] = useState();
     const [activeTab, setActiveTab] = useState(null);
 
-
+    const [data, setData] = useState([]);
+    const [graphData, setGraphData] = useState([]);
+    const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem("token");
+        navigate('/login')
     }
-    const handleTabChange = () => {
 
-    }
 
     const handleTab = (tab) => {
         if (tab === activeTab) {
@@ -29,8 +34,40 @@ export default function Home() {
         }
         console.log(tab);
         setActiveTab(tab);
-        //fetchData(tab);
+        fetchData(tab);
     };
+
+
+    const fetchData = async (tab) => {
+        try {
+            const response1 = await countProject();
+            const response2 = await getGraphData();
+            console.log("project res count and graph res ====>", response1, response2)
+
+            const data1 = response1;
+            const data2 = response2;
+            setData(data1);
+            setGraphData(data2);
+            console.log("project count and graph data ====>", data1, data2)
+
+        } catch (error) {
+            console.log("error getting graph data")
+
+        }
+
+    };
+
+
+    useEffect(() => {
+        fetchData(activeTab);
+    }, [activeTab])
+
+
+    const handleTabChange = (index) => {
+        setCurrentTab(index);
+    };
+
+
 
 
 
@@ -76,18 +113,18 @@ export default function Home() {
                     <Flex
                         mt={-45}
                         alignItems={"center"}
-                        justifyContent={"center"}
+                        justifyContent={"space-between"}
                         gap={10}
                         ml={isVertical ? 10 : 20}
 
                     >
                         <Heading
-                            fontSize={isVertical ? "4xl" : "6xl"}
+                            fontSize={"25px"}
                             fontWeight={400}
-                            pl={10}
+                            // pl={10}
                             color={"white"}
                         >
-
+                            {tabs[currentTab]}
                         </Heading>
                         <Image onClick={handleLogout} mr={5} src="/Logout.svg"></Image>
                     </Flex>
@@ -166,10 +203,13 @@ export default function Home() {
                     )}
 
 
+                    {/* ***************** All  3 tabs ************* */}
 
-                    <TabPanels m={isVertical ? 0 : 5}>
+
+
+                    <TabPanels m={!isVertical ? 5 : 0}>
                         <TabPanel borderRadius={8}>
-                            {/* <Dashboard /> */}
+                            <Dashboard data={data} graphData={graphData} />
                         </TabPanel>
 
 
