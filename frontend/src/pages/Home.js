@@ -15,12 +15,14 @@ export default function Home() {
 
     const isVertical = useBreakpointValue({ base: true, lg: false });
     const tabs = ["Dashboard", "Project Listing", "Create Project"];
-    const [currentTab, setCurrentTab] = useState();
+    const [currentTab, setCurrentTab] = useState(0);
     const [activeTab, setActiveTab] = useState(null);
-
     const [data, setData] = useState([]);
     const [graphData, setGraphData] = useState([]);
     const navigate = useNavigate();
+
+
+
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -84,18 +86,18 @@ export default function Home() {
                 >
                 </Box>
 
-                {/* LOGO */}
+                {/* LOGO and the tab name  */}
 
                 {!isVertical && (
                     <Flex
                         mt={-180}
                         alignItems={"center"}
-                        justifyContent={"center"}
-                        w={"100%"}
-                    // ml={90}
+                        justifyContent={"space-between"}
+                        w={"50%"}
+                        ml={20}
                     >
                         <Heading
-                            fontSize={isVertical ? "4xl" : "6xl"}
+                            fontSize={"30px"}
                             fontWeight={400}
                             pl={10}
                             color={"white"}
@@ -139,7 +141,7 @@ export default function Home() {
                     index={currentTab}
                     bg={"transparent"}
                     align="center"
-                    pt={isVertical ? "20px" : ""}
+                    pt={isVertical ? "40px" : ""}
                     orientation={!isVertical ? "vertical" : "horizontal"}
                 >
                     {!isVertical && (
@@ -150,13 +152,15 @@ export default function Home() {
                             mr={5}
                         >
                             <Tab
+                                position={"sticky"}
                                 onClick={() => handleTab("tab1")}
                                 _selected={{
                                     borderLeft: "5px solid blue",
+
                                 }}
                                 mt={5}
                             >
-                                <Image boxSize={7} src="/Dashboard.svg" />
+                                <Image boxSize={7} position={"sticky"} src="/Dashboard.svg" />
                             </Tab>
 
 
@@ -179,9 +183,7 @@ export default function Home() {
                                 _selected={{
                                     borderLeft: "5px solid blue",
                                 }}
-                            //mt={5}
-                            //mb={10}
-                            //pb={10}
+
                             >
                                 <Image boxSize={7} position={"sticky"} src="/CreateProject.svg" />
                             </Tab>
@@ -207,8 +209,15 @@ export default function Home() {
 
 
 
-                    <TabPanels m={!isVertical ? 5 : 0}>
-                        <TabPanel borderRadius={8}>
+                    <TabPanels m={!isVertical ? 5 : 0} minHeight={isVertical ? "calc(100vh - 150px)" : "auto"}>
+
+
+                        <TabPanel
+                            h={!isVertical ? "700px" : ""}
+                            borderRadius={5}
+                            boxShadow="xl"
+                            bg={"white"}
+                        >
                             <Dashboard data={data} graphData={graphData} />
                         </TabPanel>
 

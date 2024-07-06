@@ -11,26 +11,29 @@ export default function Dashboard({ data, graphData }) {
 
   return (
     <>
-      <Stack w={"100%"}>
+      <Stack
+        w={"100%"}
+
+      >
         <DashboardCard data={data} />
-
-
 
 
         <Box textAlign={"left"}>
           <Heading
-            fontSize={isVertical ? "15" : "30px"}
+            fontSize={isVertical ? "15" : "20px"}
+            fontWeight={"500"}
+            mb={4}
           >
             Department wise : Total Vs closed
           </Heading>
         </Box>
 
 
-
+        {/* graph box */}
         <Box
-          w={!isVertical ? "70%" : "full"}
+          w={!isVertical ? "50%" : "full"}
           p={!isVertical ? 10 : 1}
-          bg="white"
+          //bg="white"
           rounded="md"
           boxShadow="2xl"
         >

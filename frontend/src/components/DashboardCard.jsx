@@ -19,7 +19,7 @@ const Card = ({ head, count }) => {
                 borderRadius="md"
                 padding={2}
                 marginBottom={4}
-                bgColor={"white"}
+               bgColor={"white"}
                 textAlign={"left"}
             >
 
