@@ -8,7 +8,7 @@ const router = express.Router();
 router.put("/updateStatus", authMiddleware, async (req, res) => {
     const { Status, id } = req.body;
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 5;
 
     //searching logic same as previous
     const searchData = req.query.filter ?

@@ -1,12 +1,11 @@
-import React from 'react'
+import React from 'react';
 import { Tr, Td, Button, Text, Heading } from "@chakra-ui/react";
-
 
 export default function TableRow({
     id,
     ProjectName,
-    StartDate,
-    EndDate,
+    StartDate = "",
+    EndDate = "",
     Reason,
     Type,
     Division,
@@ -24,22 +23,23 @@ export default function TableRow({
         return date.toLocaleString("en-US", { month: "short" });
     };
 
-
-
+    const formatDate = (date) => {
+        if (!date || date.length < 10) return "Invalid Date";
+        const month = monthNumberToWord(date.slice(5, 7));
+        const day = date.slice(8, 10);
+        const year = date.slice(0, 4);
+        return `${month} ${day}, ${year}`;
+    };
 
     return (
-
         <>
-            <Tr >
+            <Tr>
                 <Td w={"100px"} h={"70px"}>
                     <Heading fontWeight={500} fontSize={"17px"} color={"gray.700"}>
                         {ProjectName}
                     </Heading>
                     <Text fontSize={"13px"} color={"gray.500"}>
-                        {monthNumberToWord(StartDate.slice(6, 7))}
-                        {StartDate.slice(7, 10)}, {StartDate.slice(0, 4)} to{" "}
-                        {monthNumberToWord(EndDate.slice(6, 7))}
-                        {EndDate.slice(7, 10)}, {EndDate.slice(0, 4)}
+                        {formatDate(StartDate)} to {formatDate(EndDate)}
                     </Text>
                 </Td>
                 <Td>{Reason}</Td>
@@ -50,7 +50,6 @@ export default function TableRow({
                 <Td>{Department}</Td>
                 <Td>{Location}</Td>
                 <Td fontWeight={"bold"}>{Status}</Td>
-                
                 
                 <Td display={"flex"} gap={2}>
                     <Button
@@ -88,7 +87,6 @@ export default function TableRow({
                     </Button>
                 </Td>
             </Tr>
-
         </>
-    )
+    );
 }

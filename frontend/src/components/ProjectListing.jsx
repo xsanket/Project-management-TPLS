@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Box, useBreakpointValue, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Select, useDisclosure, List, ListItem, Icon, Flex, InputGroup, InputLeftElement, Input, Text, DrawerCloseButton } from "@chakra-ui/react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { Box, useBreakpointValue, Drawer, DrawerBody, DrawerContent, DrawerHeader, DrawerOverlay, Select, useDisclosure, List, ListItem, Icon, Flex, InputGroup, InputLeftElement, Input, Text, DrawerCloseButton, Button } from "@chakra-ui/react";
+import { RepeatIcon, SearchIcon } from "@chakra-ui/icons";
 import ProjectTable from './ProjectTable.jsx';
 import { useSearchParams } from "react-router-dom";
 import CardComponent from './CardComponent.jsx';
@@ -28,13 +28,13 @@ export default function ProjectListing({ projects, setProjects }) {
   const AllPage = Math.ceil(totalPages / 10);
   const initQuery = getQuery(searchParams.get("query"));
   const [page, setPage] = useState(initPage);
-  const [query, setQuery] = useState(initQuery || "");
+  const [query, setQuery] = useState("");
   const [sortBy, setSortBy] = useState(initSort);
-
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     getProjectsData(page, query, sortBy);
-  }, [page, query, sortBy]);
+  }, [page, sortBy]);
 
 
   const getProjectsData = async (page, query, sortBy) => {
@@ -46,6 +46,7 @@ export default function ProjectListing({ projects, setProjects }) {
       if (response && response.projects) {
         //console.log("response =========>>", response.projects[0]);
         setData(response.projects);
+        setFilteredData(response.projects);
         //console.log("hello")
         setTotalPages(response.totalCount);
       }
@@ -95,6 +96,26 @@ export default function ProjectListing({ projects, setProjects }) {
     }
   };
 
+  const handleSearchIcon = () => {
+    console.log("search click")
+    const filtered = data.filter(project =>
+      project.ProjectName.toLowerCase().includes(query.toLowerCase()) ||
+      project.Reason.toLowerCase().includes(query.toLowerCase()) ||
+      project.Type.toLowerCase().includes(query.toLowerCase()) ||
+      project.Division.toLowerCase().includes(query.toLowerCase()) ||
+      project.Category.toLowerCase().includes(query.toLowerCase()) ||
+      project.Priority.toLowerCase().includes(query.toLowerCase()) ||
+      project.Department.toLowerCase().includes(query.toLowerCase()) ||
+      project.Location.toLowerCase().includes(query.toLowerCase()) ||
+      project.Status.toLowerCase().includes(query.toLowerCase())
+    );
+    setFilteredData(filtered);
+  };
+
+  const handleReset = () => {
+    setQuery('');
+    setFilteredData(data);
+  }
 
 
   useEffect(() => {
@@ -127,6 +148,28 @@ export default function ProjectListing({ projects, setProjects }) {
               onChange={(e) => setQuery(e.target.value)}
               variant="flushed"
             />
+            <Box display="flex" alignItems="center" onClick={handleSearchIcon}>
+              <SearchIcon
+                color="gray.500"
+                cursor="pointer"
+                alignSelf="center"
+              />
+            </Box>
+
+
+            <Box display="flex" alignItems="center">
+              <RepeatIcon
+                color="gray.500"
+                ml={2}
+                cursor="pointer"
+                onClick={handleReset}
+                size="sm"
+                
+                variant="outline"
+              >
+               
+              </RepeatIcon>
+            </Box>
           </InputGroup>
         </Box>
 
@@ -193,8 +236,8 @@ export default function ProjectListing({ projects, setProjects }) {
 
       {isVertical ? (
         <Box w={"100%"}>
-          {data.length >= 1 &&
-            data.map((item) => (
+          {filteredData.length >= 1 &&
+            filteredData.map((item) => (
               <CardComponent
                 key={item._id}
                 ProjectName={item.ProjectName}
@@ -214,7 +257,7 @@ export default function ProjectListing({ projects, setProjects }) {
             ))}
         </Box>
       ) : (
-        <ProjectTable handleUpdate={handleUpdate} data={data} />
+        <ProjectTable handleUpdate={handleUpdate} data={filteredData} />
       )}
 
       {AllPage === 1 ? (

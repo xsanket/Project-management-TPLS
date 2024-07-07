@@ -35,9 +35,6 @@ router.post('/registration', async (req, res) => {
         });
 
 
-
-
-
     } catch (error) {
         return res.send({
             success: false,

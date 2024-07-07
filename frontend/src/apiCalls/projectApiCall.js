@@ -18,7 +18,7 @@ export const createProject = async (payload) => {
 export const fetchProjects = async (page, query, sortBy) => {
   try {
     const params = {
-      limit: 10,
+      limit: 7,
       page,
       filter: query,
       sort: sortBy,
@@ -34,7 +34,7 @@ export const fetchProjects = async (page, query, sortBy) => {
 export const updateProjects = async (page, query, sortBy, value, id) => {
   try {
     const params = {
-      limit: 10,
+      limit: 7,
       page,
       filter: query,
       sort: sortBy,

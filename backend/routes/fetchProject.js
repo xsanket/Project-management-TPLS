@@ -9,7 +9,7 @@ router.get('/fetchProjects',authMiddleware, async (req, res) => {
     //console.log("hello")
 
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 7;
 
     //for filtering the project
     const searchData = req.query.filter ? {
