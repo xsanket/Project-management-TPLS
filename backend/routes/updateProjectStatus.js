@@ -5,7 +5,7 @@ import authMiddleware from '../middleware/authMiddleware.js';
 const router = express.Router();
 
 
-router.put("/updateProjectStatus", authMiddleware, async (req, res) => {
+router.put("/updateProjectStatus", async (req, res) => {
     const { Status, id } = req.body;
     try {
         const updatedProject = await ProjectModel.findByIdAndUpdate(

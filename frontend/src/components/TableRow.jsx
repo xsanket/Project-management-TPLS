@@ -34,7 +34,7 @@ export default function TableRow({
     return (
         <>
             <Tr>
-                <Td w={"100px"} h={"70px"}>
+                <Td w={"100px"} h={"40px"}>
                     <Heading fontWeight={500} fontSize={"17px"} color={"gray.700"}>
                         {ProjectName}
                     </Heading>
