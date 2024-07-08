@@ -8,7 +8,7 @@ export default function Graph({ data }) {
     const total = data?.total || [];
     const closed = data?.closed || [];
 
-    // If there's no data, return early
+    // if no data 
     if (!data || !data.total || !data.closed) {
         return <div>No data available</div>;
     }
@@ -98,7 +98,6 @@ export default function Graph({ data }) {
                 data={graphData}
                 options={options}
             >
-
             </Bar>
 
         </>

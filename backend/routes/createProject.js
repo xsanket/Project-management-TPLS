@@ -26,9 +26,16 @@ router.post("/createProject", authMiddleware, async (req, res) => {
 
         if (startDateObj > endDateObj) {
             return res.status(400).json({ message: "Start date cannot be greater than end date" });
-            console.log("error is here")
+            //console.log("error is here")
         }
 
+        const nameProject = await createProjectModel.findOne({ ProjectName });
+        if (nameProject) {
+            return res.send({
+                success: false,
+                message: "project name is already present"
+            })
+        }
 
         // create the project instance
         const project = new createProjectModel({ ProjectName, Reason, Type, Division, Category, Priority, Department, StartDate, EndDate, Location, Status });

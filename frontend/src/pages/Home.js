@@ -24,10 +24,6 @@ export default function Home() {
 
 
 
-
-
-
-
     const handleTab = (tab) => {
         if (tab === activeTab) {
             return;

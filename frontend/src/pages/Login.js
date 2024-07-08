@@ -8,7 +8,7 @@ import { Link, useNavigate } from 'react-router-dom';
 export default function Login() {
 
     const isVertical = useBreakpointValue({ base: true, lg: false })
-    const [email, setEmil] = useState("");
+    const [email, setEmail] = useState("");
     const [checkEmail, setCheckEmail] = useState(false);
     const [password, setPassword] = useState("");
     const [checkPassword, setCheckPassword] = useState(false)
@@ -16,24 +16,32 @@ export default function Login() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
     const toast = useToast();
+    const [valid, setValid] = useState(false)
 
 
     useEffect(() => {
         if (localStorage.getItem('token')) {
             navigate('/home')
             toast({
-                    title: "You already logged in",
-                    status: "success",
-                    duration: 3000,
-                    position: "top"
-                });
-            }
+                title: "You already logged in",
+                status: "success",
+                duration: 3000,
+                position: "top"
+            });
+        }
 
     }, []);
 
 
+    const validateEmail = (email) => {
+        const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return emailPattern.test(email);
+    };
+
+
+
     const handleEmailChange = (e) => {
-        setEmil(e.target.value);
+        setEmail(e.target.value);
         setCheckEmail(false);
     }
 
@@ -44,17 +52,20 @@ export default function Login() {
 
 
     const handleSubmit = async (values) => {
-        console.log(values);
-        if (email.trim() === "") {
-            setCheckEmail(true);
+        if (!validateEmail(email)) {
+            setCheckEmail(true); 
+            return; 
         }
+
         if (password.trim() === "") {
             setCheckPassword(true);
+            return; 
         }
 
         try {
+            console.log("before");
             const response = await userLogin({ email, password });
-
+            console.log("after");
             if (response.success) {
                 //console.log(response)
                 localStorage.setItem("token", response.token);

@@ -4,10 +4,6 @@ import './index.css';
 import App from './app';
 import { ChakraProvider } from '@chakra-ui/react';
 
-
-
-
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <ChakraProvider>

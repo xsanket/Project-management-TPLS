@@ -9,9 +9,7 @@ import ProtectedPage from './components/ProtectedPage';
 const App = () => {
 
     return (
-
         <div>
-
             <Router>
                 <Routes>
                     <Route path="/" element={<Login />} />

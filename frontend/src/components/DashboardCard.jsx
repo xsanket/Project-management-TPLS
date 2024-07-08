@@ -2,9 +2,6 @@ import React from 'react'
 import { Box, Heading, Text, useBreakpointValue } from "@chakra-ui/react";
 
 
-
-
-
 const Card = ({ head, count }) => {
     const isVertical = useBreakpointValue({ base: true, lg: false });
 

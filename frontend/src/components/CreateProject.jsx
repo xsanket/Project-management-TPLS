@@ -31,6 +31,7 @@ export default function CreateProject({ addNewProject }) {
         if (!data.ProjectName) {
             return setCheck(true);
         }
+
         setCheck(false);
         if (!data.StartDate || !data.EndDate || !data.Reason || !data.Type || !data.Division || !data.Category || !data.Priority || !data.Department || !data.Location) {
             {
@@ -46,6 +47,17 @@ export default function CreateProject({ addNewProject }) {
 
         try {
             const response = await createProject({ ...data });
+
+            if(response.message === "project name is already present"){
+                toast({
+                    title: "project name is already in use",
+                    status: "warning",
+                    duration: 9000,
+                    isClosable: true,
+                })
+            }
+
+
             if (response.success) {
                 // console.log(response)
                 addNewProject(response);
