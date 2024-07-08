@@ -5,56 +5,57 @@ import authMiddleware from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/fetchProjects',authMiddleware, async (req, res) => {
+router.get('/fetchProjects', async (req, res) => {
     //console.log("hello")
 
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 7;
+    // const page = parseInt(req.query.page) || 1;
+    // const limit = parseInt(req.query.limit) || 10;
 
     //for filtering the project
-    const searchData = req.query.filter ? {
-        $or: [
-            { ProjectName: { $regex: req.query.filter, $options: "i" } },
-            { Reason: { $regex: req.query.filter, $options: "i" } },
-            { Type: { $regex: req.query.filter, $options: "i" } },
-            { Division: { $regex: req.query.filter, $options: "i" } },
-            { Category: { $regex: req.query.filter, $options: "i" } },
-            { Priority: { $regex: req.query.filter, $options: "i" } },
-            { Department: { $regex: req.query.filter, $options: "i" } },
-            { Location: { $regex: req.query.filter, $options: "i" } },
-            { Status: { $regex: req.query.filter, $options: "i" } },
-        ],
-    }
-        : {};
+    // const searchData = req.query.filter ? {
+    //     $or: [
+    //         { ProjectName: { $regex: req.query.filter, $options: "i" } },
+    //         { Reason: { $regex: req.query.filter, $options: "i" } },
+    //         { Type: { $regex: req.query.filter, $options: "i" } },
+    //         { Division: { $regex: req.query.filter, $options: "i" } },
+    //         { Category: { $regex: req.query.filter, $options: "i" } },
+    //         { Priority: { $regex: req.query.filter, $options: "i" } },
+    //         { Department: { $regex: req.query.filter, $options: "i" } },
+    //         { Location: { $regex: req.query.filter, $options: "i" } },
+    //         { Status: { $regex: req.query.filter, $options: "i" } },
+    //     ],
+    // }
+    //     : {};
 
     // console.log("searchData", searchData)
-
+    const projects = await ProjectModel.find({}).sort({ createdAt: -1 });
 
     // for sorting
-    let sort = req.query.sort || "ProjectName";
-    req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+    //let sort = req.query.sort || "createdAt,desc";
+    // let sort = "createdAt,asc";
+    // req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
-    let sortBy = {};
-    if (sort[1]) {
-        sortBy[sort[0]] = sort[1];
-    }
-    else {
-        sortBy[sort[0]] = "asc"
-    }
+    // let sortBy = {};
+    // if (sort[1]) {
+    //     sortBy[sort[0]] = sort[1];
+    // }
+    // else {
+    //     sortBy[sort[0]] = "asc"
+    // }
 
 
     // pagination logic
 
-    const totalCount = await ProjectModel.countDocuments();
-    const projects = await ProjectModel.find({})
-        .find(searchData).sort(sortBy).skip((page - 1) * limit).limit(limit);
-    console.log("count", totalCount)
-    console.log("projects", projects)
-    
+    // const totalCount = await ProjectModel.countDocuments();
+    // const projects = await ProjectModel.find({})
+    //     .find(searchData).sort(sortBy).skip((page - 1) * limit).limit(limit);
+    // console.log("count", totalCount)
+    // console.log("projects", projects)
+
     try {
         res.status(200).send({
             projects,
-            totalCount
+            //totalCount
         });
 
     } catch (error) {

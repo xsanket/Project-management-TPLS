@@ -152,6 +152,7 @@ export default function Home() {
                     index={currentTab}
                     bg={"transparent"}
                     align="center"
+                    
                     pt={isVertical ? "40px" : ""}
                     orientation={!isVertical ? "vertical" : "horizontal"}
                 >
@@ -161,6 +162,7 @@ export default function Home() {
                             boxShadow="xl"
                             borderRadius={5}
                             mr={5}
+                            mt={-200}
                         >
                             <Tab
                                 position={"sticky"}
@@ -198,19 +200,22 @@ export default function Home() {
                             >
                                 <Image boxSize={7} position={"sticky"} src="/CreateProject.svg" />
                             </Tab>
+                            <Tab></Tab>
 
+                            <Button
+                                onClick={handleLogout}
+                                leftIcon={<Image src="/Logout.svg" boxSize={5} />}
+                                variant="unstyled"
+                                justifyContent="center"
+                                alignItems="center"
+                                ml={3}
+                                position="absolute"
+                                pb={5}
+                                bottom="0"
+                                
+                            >
 
-                            <Tab pt={10} mt={10}>
-                                <Image cursor={"pointer"} onClick={handleLogout}  src="/Logout.svg"></Image>
-                                {/* <Image
-                                    position={"sticky"}
-                                    bottom={0}
-                                    cursor={"pointer"}
-                                    onClick={handleLogout}
-                                    boxSize={7}
-                                    src="/Logout.svg"
-                                /> */}
-                            </Tab>
+                            </Button>
 
                         </TabList>
 

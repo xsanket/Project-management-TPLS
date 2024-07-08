@@ -20,7 +20,7 @@ export default function CreateProject({ addNewProject }) {
         setData({
             ...data,
             [name]: value,
-        });
+        }); 
     };
 
 
@@ -62,7 +62,7 @@ export default function CreateProject({ addNewProject }) {
             }
 
             if (response.message == "Start date cannot be greater than end date") {
-                console.log("hello from date")
+                //console.log("hello from date")
                 toast({
                     title: "Start date cannot be greater than end date",
                     status: "warning",
