@@ -18,7 +18,7 @@ export const createProject = async (payload) => {
 export const fetchProjects = async (page, query, sortBy) => {
   try {
     const params = {
-      limit: 7,
+      limit: 10,
       page,
       filter: query,
       sort: sortBy,
@@ -31,30 +31,12 @@ export const fetchProjects = async (page, query, sortBy) => {
   }
 };
 
-export const updateProjects = async (page, query, sortBy, value, id) => {
-  try {
-    const params = {
-      limit: 7,
-      page,
-      filter: query,
-      sort: sortBy,
-      Status: value,
-      id: id,
-    };
-
-    const response = await axios.put('api/updateStatus', params);
-
-    return response.data;
-  } catch (error) {
-    console.error("Error updating projects:", error);
-    throw error;
-  }
-};
 
 
 
 
-export const updateProjectStatus = async ({ page, query, sortBy, value, id }) => {
+
+export const updateProjectStatus = async ({  value, id }) => {
   try {
     const response = await axios.put('/api/updateProjectStatus', {
       Status: value,

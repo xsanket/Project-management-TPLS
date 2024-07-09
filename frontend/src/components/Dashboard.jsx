@@ -4,7 +4,7 @@ import DashboardCard from './DashboardCard.jsx';
 import Graph from './Graph.jsx';
 
 
-export default function Dashboard({ data, graphData }) {
+export default function Dashboard({ projectCount, graphData }) {
   const isVertical = useBreakpointValue({ base: true, lg: false });
 
 
@@ -15,7 +15,7 @@ export default function Dashboard({ data, graphData }) {
         w={"100%"}
 
       >
-        <DashboardCard data={data} />
+        <DashboardCard data={projectCount} />
 
 
         <Box textAlign={"left"}>

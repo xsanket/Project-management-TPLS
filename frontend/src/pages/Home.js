@@ -6,6 +6,7 @@ import ProjectListing from '../components/ProjectListing';
 import Dashboard from '../components/Dashboard';
 import { countProject, getGraphData } from '../apiCalls/graphApiCall';
 import { useNavigate } from 'react-router-dom';
+import { fetchProjects, updateProjectStatus } from '../apiCalls/projectApiCall';
 
 
 
@@ -17,59 +18,76 @@ export default function Home() {
     const tabs = ["Dashboard", "Project Listing", "Create Project"];
     const [currentTab, setCurrentTab] = useState(0);
     const [activeTab, setActiveTab] = useState(null);
-    const [data, setData] = useState([]);
-    const [graphData, setGraphData] = useState([]);
+    const [projectCount, setProjectCount] = useState(null);
+    const [graphData, setGraphData] = useState(null);
+    const [projectData, setProjectData] = useState(null);
     const navigate = useNavigate();
-    const [projects, setProjects] = useState([]);
 
+
+
+
+    
+    const fetchDashboardData = async () => {
+        try {
+            const [countResponse, graphResponse] = await Promise.all([
+                countProject(),
+                getGraphData()
+            ]);
+            setProjectCount(countResponse);
+            setGraphData(graphResponse);
+        } catch (error) {
+            console.error("Error fetching dashboard data:", error);
+        }
+    };
+
+
+
+
+    const fetchProjectListingData = async () => {
+        try {
+            const response = await fetchProjects();
+            setProjectData(response);
+        } catch (error) {
+            console.error("Error fetching project data:", error);
+        }
+    };
+
+  
+
+
+   
 
 
     const handleTab = (tab) => {
         if (tab === activeTab) {
             return;
         }
-        console.log(tab);
+        //console.log(tab);
         setActiveTab(tab);
-        fetchData(tab);
+        //fetchData(tab);
     };
 
 
-    const fetchData = async (tab) => {
-        try {
-            const response1 = await countProject();
-            const response2 = await getGraphData();
-            console.log("project res count and graph res ====>", response1, response2)
-
-            const data1 = response1;
-            const data2 = response2;
-            setData(data1);
-            setGraphData(data2);
-            console.log("project count and graph data ====>", data1, data2)
-
-        } catch (error) {
-            console.log("error getting graph data")
-
-        }
-
-    };
 
 
     useEffect(() => {
-        fetchData(activeTab);
-    }, [activeTab])
+        if (currentTab === 0) {
+            fetchDashboardData();
+        } 
+    }, [currentTab]);
 
 
     const handleTabChange = (index) => {
         setCurrentTab(index);
     };
 
-    const addNewProject = (newProject) => {
-        setProjects(prevProjects => [...prevProjects, newProject]);
-    };
+    // const addNewProject = (newProject) => {
+    //     setProjects(prevProjects => [...prevProjects, newProject]);
+    // };
 
-    useEffect(() => {
-        fetchData(activeTab);
-    }, [activeTab]);
+    // useEffect(() => {
+    //     fetchData(activeTab);
+    // }, [activeTab]);
 
 
 
@@ -148,7 +166,7 @@ export default function Home() {
                     index={currentTab}
                     bg={"transparent"}
                     align="center"
-                    
+
                     pt={isVertical ? "40px" : ""}
                     orientation={!isVertical ? "vertical" : "horizontal"}
                 >
@@ -208,7 +226,7 @@ export default function Home() {
                                 position="absolute"
                                 pb={5}
                                 bottom="0"
-                                
+
                             >
 
                             </Button>
@@ -231,7 +249,7 @@ export default function Home() {
                             boxShadow="xl"
                         // bg={"white"}
                         >
-                            <Dashboard data={data} graphData={graphData} />
+                            <Dashboard projectCount={projectCount} graphData={graphData} />
                         </TabPanel>
 
 
@@ -242,7 +260,10 @@ export default function Home() {
                             borderRadius={5}
 
                         >
-                            <ProjectListing projects={projects} setProjects={setProjects} />
+                            <ProjectListing
+                                projects={projectData}
+                                
+                            />
                         </TabPanel>
 
 
@@ -253,7 +274,7 @@ export default function Home() {
                             bg={"white"}
                         >
 
-                            <CreateProject addNewProject={addNewProject} />
+                            <CreateProject   />
                         </TabPanel>
 
                     </TabPanels>
