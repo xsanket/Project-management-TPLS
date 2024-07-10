@@ -1,14 +1,21 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Box, Button, Flex, FormControl, InputRightElement, FormErrorMessage, FormLabel, Image, Input, InputGroup, Stack, Text, useBreakpointValue, useColorModeValue, viewIcon, Toast, useToast, Heading, Tabs, TabList, Tab, Divider, TabPanels, TabPanel } from "@chakra-ui/react";
 
 import CreateProject from '../components/CreateProject';
 import ProjectListing from '../components/ProjectListing';
 import Dashboard from '../components/Dashboard';
 import { countProject, getGraphData } from '../apiCalls/graphApiCall';
-import { useNavigate } from 'react-router-dom';
-import { fetchProjects, updateProjectStatus } from '../apiCalls/projectApiCall';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { fetchProjects, fetchUpdatedProjects, updateProjectStatus } from '../apiCalls/projectApiCall';
+import { getQuery, getSort } from '../sort/SortLogic';
 
-
+function getPage(value) {
+    value = Number(value);
+    if (!value || value < 1) {
+        value = 1;
+    }
+    return value;
+}
 
 
 
@@ -16,18 +23,38 @@ export default function Home() {
 
     const isVertical = useBreakpointValue({ base: true, lg: false });
     const tabs = ["Dashboard", "Project Listing", "Create Project"];
+    const [projects, setProjects] = useState([]);
     const [currentTab, setCurrentTab] = useState(0);
     const [activeTab, setActiveTab] = useState(null);
     const [projectCount, setProjectCount] = useState(null);
     const [graphData, setGraphData] = useState(null);
     const [projectData, setProjectData] = useState(null);
+    const [filteredData, setFilteredData] = useState([]);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const initPage = getPage(searchParams.get("page"));
+    const initSort = getSort(searchParams.get("sortOrder"));
+    const initQuery = getQuery(searchParams.get("query"));
+    const [page, setPage] = useState(initPage);
+    const [sortBy, setSortBy] = useState(initSort);
+    const [query, setQuery] = useState(initQuery || "");
+    const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
 
 
 
+    const fetchProjectListingData = useCallback(async () => {
+        try {
+            const response = await fetchProjects({ page, query, sortBy });
+            setProjects(response.projects);
+            setTotalPages(response.totalCount);
+        } catch (error) {
+            console.error("Error fetching project data:", error);
+        }
+    }, [page, query, sortBy]);
 
-    
-    const fetchDashboardData = async () => {
+
+
+    const fetchDashboardData = useCallback(async () => {
         try {
             const [countResponse, graphResponse] = await Promise.all([
                 countProject(),
@@ -38,24 +65,25 @@ export default function Home() {
         } catch (error) {
             console.error("Error fetching dashboard data:", error);
         }
-    };
+    }, [fetchProjectListingData]);
+
+
+
+    const updateProjectStatusInDashboard = useCallback(async () => { 
+            await fetchDashboardData();  
+    }, [fetchDashboardData]);
 
 
 
 
-    const fetchProjectListingData = async () => {
-        try {
-            const response = await fetchProjects();
-            setProjectData(response);
-        } catch (error) {
-            console.error("Error fetching project data:", error);
-        }
-    };
-
-  
+    const addNewProject = useCallback(async (newProject) => {
+        await fetchProjectListingData();
+        await fetchDashboardData();
+    }, [fetchProjectListingData, fetchDashboardData]);
 
 
-   
+
+
 
 
     const handleTab = (tab) => {
@@ -70,24 +98,18 @@ export default function Home() {
 
 
 
-    useEffect(() => {
-        if (currentTab === 0) {
-            fetchDashboardData();
-        } 
-    }, [currentTab]);
+    // useEffect(() => {
+    //     if (currentTab === 0) {
+    //         fetchDashboardData();
+    //     }
+
+    // }, [currentTab]);
 
 
     const handleTabChange = (index) => {
         setCurrentTab(index);
     };
 
-    // const addNewProject = (newProject) => {
-    //     setProjects(prevProjects => [...prevProjects, newProject]);
-    // };
-
-    // useEffect(() => {
-    //     fetchData(activeTab);
-    // }, [activeTab]);
 
 
 
@@ -249,7 +271,9 @@ export default function Home() {
                             boxShadow="xl"
                         // bg={"white"}
                         >
-                            <Dashboard projectCount={projectCount} graphData={graphData} />
+                            <Dashboard projectCount={projectCount} graphData={graphData}
+                                setProjectCount={setProjectCount} setGraphData={setGraphData}
+                            />
                         </TabPanel>
 
 
@@ -261,8 +285,8 @@ export default function Home() {
 
                         >
                             <ProjectListing
-                                projects={projectData}
-                                
+                                projects={projects}
+                                updateProjectStatusInDashboard={updateProjectStatusInDashboard}
                             />
                         </TabPanel>
 
@@ -274,7 +298,7 @@ export default function Home() {
                             bg={"white"}
                         >
 
-                            <CreateProject   />
+                            <CreateProject addNewProject={addNewProject} />
                         </TabPanel>
 
                     </TabPanels>

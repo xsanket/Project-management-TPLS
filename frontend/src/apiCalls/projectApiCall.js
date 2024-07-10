@@ -9,10 +9,10 @@ export const createProject = async (payload) => {
 };
 
 
-// export const fetchProjects = async (payload) => {
-//     const response = await axiosInstance("get", `/api/fetchProjects`, payload);
-//     return response;
-// }
+export const fetchUpdatedProjects = async (payload) => {
+    const response = await axiosInstance("get", `/api/fetchProjects`, payload);
+    return response;
+}
 
 
 export const fetchProjects = async (page, query, sortBy) => {

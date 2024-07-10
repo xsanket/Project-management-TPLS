@@ -17,7 +17,7 @@ function getPage(value) {
   return value;
 }
 
-export default function ProjectListing({ projects, setProjects }) {
+export default function ProjectListing({ projects, updateProjectStatusInDashboard }) {
 
   const isVertical = useBreakpointValue({ base: true, md: false });
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -71,8 +71,9 @@ export default function ProjectListing({ projects, setProjects }) {
   };
 
 
+
   useEffect(() => {
-    setData(projects);
+    setFilteredData(projects);
   }, [projects]);
 
 
@@ -83,10 +84,8 @@ export default function ProjectListing({ projects, setProjects }) {
     try {
       const response = await updateProjectStatus({ value, id });
       if (response.success) {
+        updateProjectStatusInDashboard(response);
         const updatedProject = response.data;
-        // setData(prevData =>
-        //   prevData.map(item => item._id === id ? updatedProject : item)
-        // );
         setFilteredData(prevData =>
           prevData.map(item => item._id === id ? updatedProject : item)
         );
