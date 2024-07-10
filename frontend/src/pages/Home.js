@@ -39,7 +39,7 @@ export default function Home() {
     const [query, setQuery] = useState(initQuery || "");
     const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
-
+    const toast = useToast();
 
 
     const fetchProjectListingData = useCallback(async () => {
@@ -69,8 +69,8 @@ export default function Home() {
 
 
 
-    const updateProjectStatusInDashboard = useCallback(async () => { 
-            await fetchDashboardData();  
+    const updateProjectStatusInDashboard = useCallback(async () => {
+        await fetchDashboardData();
     }, [fetchDashboardData]);
 
 
@@ -116,6 +116,12 @@ export default function Home() {
     const handleLogout = () => {
         //console.log("Logout ");
         localStorage.removeItem("token");
+        toast({
+            title: "Logout  Successful",
+            status: "success",
+            duration: 3000,
+            position: "top"
+        });
         navigate('/')
     }
 

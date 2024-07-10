@@ -1,6 +1,5 @@
 import express from 'express';
 import ProjectModel from "../models/createProjectModel.js";
-import authMiddleware from '../middleware/authMiddleware.js';
 
 
 const router = express.Router();
@@ -31,7 +30,7 @@ router.get('/fetchProjects', async (req, res) => {
     //const projects = await ProjectModel.find({}).sort({ createdAt: -1 });
 
     //for sorting
-    let sort = req.query.sort || "createdAt,desc";
+    let sort = req.query.sort || "createdAt";
     req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
 
     let sortBy = {};
@@ -43,7 +42,7 @@ router.get('/fetchProjects', async (req, res) => {
     }
 
 
-    // pagination logic
+   
 
     const totalCount = await ProjectModel.countDocuments();
     const projects = await ProjectModel.find({})

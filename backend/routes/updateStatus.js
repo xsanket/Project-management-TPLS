@@ -40,7 +40,7 @@ router.put("/updateStatussss", authMiddleware, async (req, res) => {
         sortBy[sort[0]] = sort[1];
     }
     else {
-        sortBy[sort[0]] = "asc"
+        sortBy[sort[0]] = "desc"
     }
 
     try {

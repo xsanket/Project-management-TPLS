@@ -6,7 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import CardComponent from './CardComponent.jsx';
 import { BsFilterLeft } from "react-icons/bs";
 import { getSort, getQuery } from '../sort/SortLogic.js';
-import { fetchProjects, updateProjects, updateProjectStatus } from '../apiCalls/projectApiCall.js';
+import {  updateProjectStatus } from '../apiCalls/projectApiCall.js';
 import Pagination from './Pagination.jsx';
 
 function getPage(value) {
@@ -34,22 +34,22 @@ export default function ProjectListing({ projects, updateProjectStatusInDashboar
   const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
-    getProjectsData(page, query, sortBy);
+    getProjectsData(page, sortBy, query);
   }, [page, query, sortBy]);
 
 
-  const getProjectsData = async (page, query, sortBy) => {
+  const getProjectsData = async (page, sortBy, query) => {
     try {
-      const response = await fetchProjects({ page, query, sortBy });
-      //console.log("response =========>>",response.projects[0]);
-      //console.log("hello")
+      const response = await fetch(`/api/fetchProjects?page=${page}&sort=${sortBy}&filter=${query}`);
+      console.log("responseee =========>>", response);
+      console.log("hello")
 
-      if (response && response.projects) {
-        //console.log("response =========>>", response.projects[0]);
-        setData(response.projects);
-        setFilteredData(response.projects);
-        //console.log("hello")
-        setTotalPages(response.totalCount);
+      if (response.ok) {
+        console.log("response =========>>", response);
+        const data = await response.json();
+        setData(data.projects);
+        setFilteredData(data.projects);
+        setTotalPages(data.totalCount);
       }
     } catch (error) {
       console.log("Error fetching projects: ", error);

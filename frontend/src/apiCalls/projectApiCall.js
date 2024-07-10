@@ -15,13 +15,13 @@ export const fetchUpdatedProjects = async (payload) => {
 }
 
 
-export const fetchProjects = async (page, query, sortBy) => {
+export const fetchProjects = async (page, query, sort) => {
   try {
     const params = {
       limit: 10,
       page,
       filter: query,
-      sort: sortBy,
+      sort: sort,
     };
     const response = await axiosInstanceQuery('get', '/api/fetchProjects', params);
     return response;
