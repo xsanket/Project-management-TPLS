@@ -28,8 +28,6 @@ export default function Home() {
     const [activeTab, setActiveTab] = useState(null);
     const [projectCount, setProjectCount] = useState(null);
     const [graphData, setGraphData] = useState(null);
-    const [projectData, setProjectData] = useState(null);
-    const [filteredData, setFilteredData] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
     const initPage = getPage(searchParams.get("page"));
     const initSort = getSort(searchParams.get("sortOrder"));
